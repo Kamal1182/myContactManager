@@ -7,24 +7,24 @@
       "projectType": "application",
       "schematics": {},
       "root": "",
-      "sourceRoot": "src",
+      "sourceRoot": "src/client",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/myContactManager",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
+            "index": "src/client/index.html",
+            "main": "src/client/main.ts",
+            "polyfills": "src/client/polyfills.ts",
+            "tsConfig": "src/client/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/client/favicon.ico",
+              "src/client/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/client/styles.css"
             ],
             "scripts": []
           },
@@ -32,8 +32,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "src/client/environments/environment.ts",
+                  "with": "src/client/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -79,16 +79,16 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "main": "src/client/test.ts",
+            "polyfills": "src/client/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/client/favicon.ico",
+              "src/client/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/client/styles.css"
             ],
             "scripts": []
           }
@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "myContactManager"
+    }
+  },
+  "defaultProject": "myContactManager",
+  "cli": {
+    "analytics": "5fb80436-4e79-4f14-8c0b-08a7b568685e"
+  }
 }
