@@ -13,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { ApiService } from './shared/api.service';
 import { AuthService } from './shared/auth.service';
 import { AuthGuard } from './auth.guard';
+import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AuthGuard } from './auth.guard';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SlimLoadingBarModule
   ],
   providers: [ApiService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
