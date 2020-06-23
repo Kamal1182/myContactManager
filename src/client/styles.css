@@ -1,1 +1,3 @@
-@import "../../node_modules/ng2-slim-loading-bar/style.css"
+@import "../../node_modules/ng2-slim-loading-bar/style.css";
+@import "./assets/semantic.min.css";
+@import "./assets/semantic.grid.min.css";
