@@ -1,12 +1,22 @@
 <div class="login-container">
-  <form class="ui big form" #loginForm="ngForm" (submit)="onSubmit(loginForm)">
+  <form class="ui big form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
     <div class="field">
       <label >Username</label>
-      <input type="text" name="username" placeholder="Username" ngModel>
+      <input #username formControlName="username" type="text" name="username" placeholder="Username" ngModel>
     </div>
+    <span *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
+      <span *ngIf="loginForm.controls['username'].errors.required">
+        Enter your username!
+      </span>
+    </span>
     <div class="field">
       <label >Password</label>
-      <input type="password" name="password" placeholder="Password" ngModel>
+      <input #pssword formControlName="password" type="password" name="password" placeholder="Password" ngModel>
+    </div>
+    <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
+      <div *ngIf="loginForm.controls['password'].errors.required">
+        Enter your password!
+      </div>
     </div>
     <button type="submit" class="ui primary button float right floated">Login</button>
   </form>
