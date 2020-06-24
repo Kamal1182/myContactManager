@@ -3,21 +3,23 @@
     <div class="field">
       <label >Username</label>
       <input #username formControlName="username" type="text" name="username" placeholder="Username" ngModel>
-    </div>
-    <span *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
-      <span *ngIf="loginForm.controls['username'].errors.required">
-        Enter your username!
-      </span>
-    </span>
+      <small *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
+        <small *ngIf="loginForm.controls['username'].errors.required">
+          Enter your username!
+        </small>
+      </small>    
+  </div>
+
     <div class="field">
       <label >Password</label>
       <input #pssword formControlName="password" type="password" name="password" placeholder="Password" ngModel>
-    </div>
-    <div *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
-      <div *ngIf="loginForm.controls['password'].errors.required">
-        Enter your password!
-      </div>
-    </div>
+      <small *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
+        <small *ngIf="loginForm.controls['password'].errors.required">
+          Enter your password!
+        </small>
+      </small>
+  </div>
+    
     <button type="submit" class="ui primary button float right floated">Login</button>
   </form>
 </div>
