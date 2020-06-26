@@ -5,6 +5,8 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/throttle';
 import { Observable } from 'rxjs/Observable';
+import { throwError, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
 
@@ -65,8 +67,10 @@ export class ApiService {
     }
 
     console.log(error);
-
-    return Observable.throw(error);
+    
+    throwError(error);
+    
+    return Observable.create((e) => {e.next(error)});
   }
 
 }

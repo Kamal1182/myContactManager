@@ -3,6 +3,7 @@ import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../shared/api.service';
 import { AuthService } from '../shared/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,8 @@ import { AuthService } from '../shared/auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  userError='';
+  passwordError='';
 
   constructor(private api: ApiService,
               private auth: AuthService,
@@ -38,6 +41,9 @@ export class LoginComponent implements OnInit {
 
     const formValues = this.loginForm.value;
 
+    this.userError = '';
+    this.passwordError = '';
+
     const payload = { 
       username: formValues.username,
       password : formValues.password
@@ -45,8 +51,15 @@ export class LoginComponent implements OnInit {
 
     this.api.post('authenticate',payload )
       .subscribe(data => {
-        this.auth.setToken(data.token);
-        this.router.navigate(['/contacts'])
+        if( data.statusCode == 404 ) {
+            this.userError = data.error;
+            Observable.throwError(data);
+        } else if( data.statusCode == 401 ) {
+            this.passwordError = data.error;
+        } else if( data.statusCode == 200 ){
+            this.auth.setToken(data.token);
+            this.router.navigate(['/contacts']);
+       }
       });
   }
 

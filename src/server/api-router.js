@@ -61,7 +61,7 @@ function apiRouter(database) {
 
       const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '4h' });
 
-      return res.json({
+      return res.status(200).json({
         message: 'successfully authenticated',
         token: token
       });
