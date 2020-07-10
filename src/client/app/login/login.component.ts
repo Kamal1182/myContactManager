@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if(this.auth.isLoggedIn()) {
-      this.router.navigate(['/contacts']);
+      this.router.navigate(['contacts']);
     }
   }
 
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
             this.passwordError = data.error;
         } else {
             this.auth.setToken(data.token);
-            this.router.navigate(['/contacts']);
+            this.router.navigate(['contacts']);
        }
       });
   }
