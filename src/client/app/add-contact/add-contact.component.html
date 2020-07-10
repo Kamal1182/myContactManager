@@ -9,39 +9,107 @@
       <p>Name: {{newContact.name}}</p>
     </div>
   </div>
-  <form class="ui big form" #contactForm="ngForm" (submit)="onSubmit(contactForm)" [class.loading]="loading">
+  <form class="ui big form" [formGroup]="addContactForm" (ngSubmit)="onSubmit()" [class.loading]="loading" novalidate>
     <div class="fields">
       <div class="eight wide field">
         <label>First Name</label>
-        <input type="text" placeholder="First Name" name="firstName" ngModel>
+        <input #firstName formControlName="firstName" type="text" placeholder="First Name" name="firstName" >
+        <small *ngIf="addContactForm.controls['firstName'].invalid && (addContactForm.controls['firstName'].dirty || addContactForm.controls['firstName'].touched)">
+          <small *ngIf="addContactForm.controls['firstName'].errors.required">
+            Enter your first name!
+          </small>
+        </small>    
+        <small *ngIf='firstnameServerError'>
+          {{firstnameServerError}}
+        </small>
       </div>
       <div class="eight wide field">
         <label>Last Name</label>
-        <input type="text" placeholder="Last Name" name="lastName" ngModel>
+        <input #lastName formControlName="lastName" type="text" placeholder="Last Name" name="lastName">
+        <small *ngIf="addContactForm.controls['lastName'].invalid && (addContactForm.controls['lastName'].dirty || addContactForm.controls['lastName'].touched)">
+          <small *ngIf="addContactForm.controls['lastName'].errors.required">
+            Enter your last name!
+          </small>
+        </small>    
+        <small *ngIf='lastnameServerError'>
+          {{lastnameServerError}}
+        </small>
       </div>
     </div>
     <div class="field">
       <label>Address</label>
-      <input type="text" placeholder="Address" name="address" ngModel>
+      <input #address formControlName="address" type="text" placeholder="Address" name="address">
+      <small *ngIf="addContactForm.controls['address'].invalid && (addContactForm.controls['address'].dirty || addContactForm.controls['address'].touched)">
+        <small *ngIf="addContactForm.controls['address'].errors.required">
+          Enter your address!
+        </small>
+      </small>    
+      <small *ngIf='addressServerError'>
+        {{addressServerError}}
+      </small>
     </div>
     <div class="equal width fields">
       <div class="field">
         <label>Phone</label>
-        <input type="text" maxlength="5" placeholder="(###)" name="areaCode" ngModel>
+        <!-- maxlength="5" -->
+        <input #areaCode formControlName="areaCode" type="text" placeholder="(###)" name="areaCode">
+        <small *ngIf="addContactForm.controls['areaCode'].invalid && (addContactForm.controls['areaCode'].dirty || addContactForm.controls['areaCode'].touched)">
+          <small *ngIf="addContactForm.controls['areaCode'].errors.required">
+            Enter your area code!
+          </small>
+          <small *ngIf="addContactForm.controls['areaCode'].errors.maxlength">
+            The max no. of lineNumber is 5 !
+          </small>
+        </small>    
+        <small *ngIf='phoneServerError'>
+          {{phoneServerError}}
+        </small>
       </div>
       <div class="field">
         <label>&nbsp;</label>
-        <input type="text" maxlength="3" placeholder="###" name="prefix" ngModel>
+        <!-- maxlength="3" -->
+        <input #prefix formControlName="prefix" type="text" placeholder="###" name="prefix" >
+        <small *ngIf="addContactForm.controls['prefix'].invalid && (addContactForm.controls['prefix'].dirty || addContactForm.controls['prefix'].touched)">
+          <small *ngIf="addContactForm.controls['prefix'].errors.required">
+            Enter phone prefix code!
+          </small>
+          <small *ngIf="addContactForm.controls['prefix'].errors.maxlength">
+            The max no. of lineNumber is 3 !
+          </small>
+        </small>
+        <small *ngIf='phoneServerError'>
+          {{phoneServerError}}
+        </small>
       </div>
       <div class="field">
         <label>&nbsp;</label>
-        <input type="text" maxlength="4" placeholder="####" name="lineNumber" ngModel>
+        <!-- maxlength="4" -->
+        <input #lineNumber formControlName="lineNumber" type="text" placeholder="####" name="lineNumber">
+        <small *ngIf="addContactForm.controls['lineNumber'].invalid && (addContactForm.controls['lineNumber'].dirty || addContactForm.controls['lineNumber'].touched)">
+          <small *ngIf="addContactForm.controls['lineNumber'].errors.required">
+            Enter your lineNumber!
+          </small>
+          <small *ngIf="addContactForm.controls['lineNumber'].errors.maxlength">
+            The max no. of lineNumber is 4 !
+          </small>
+        </small>    
+        <small *ngIf='phoneServerError'>
+          {{phoneServerError}}
+        </small>
       </div>
     </div>
     <div class="field">
       <label>Photo URL</label>
-      <input type="text" placeholder="http://cdn.com/profile.jpg" name="photo" ngModel>
+      <input #photo formControlName="photo" type="text" placeholder="http://cdn.com/profile.jpg" name="photo">
+      <small *ngIf="addContactForm.controls['photo'].invalid && (addContactForm.controls['photo'].dirty || addContactForm.controls['photo'].touched)">
+        <small *ngIf="addContactForm.controls['photo'].errors.required">
+          Enter your photoURL!
+        </small>
+      </small>    
+      <small *ngIf='photoServerError'>
+        {{photoServerError}}
+      </small>
     </div>
-    <button type="submit" class="ui submit large grey button right floated">Submit</button>
+    <button type="submit" [disabled]="addContactForm.invalid" class="ui submit large grey button right floated">Submit</button>
   </form>
 </div>

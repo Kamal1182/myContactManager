@@ -1,11 +1,14 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const express  = require('express');
+const jwt      = require('jsonwebtoken');
+const bcrypt   = require('bcrypt');
 const checkJwt = require('express-jwt');
+const router   = express.Router();
+const contactsRoute = require('./contacts')
+//const db       = require('../dbConnection');
+//database = db.getDb();
 
-function apiRouter(database) {
-  const router = express.Router();
-
+module.exports = () => {
+  
   router.use(
     checkJwt({ secret: process.env.JWT_SECRET }).unless({ path: '/api/authenticate' })
   );
@@ -16,18 +19,25 @@ function apiRouter(database) {
     }
   })
   
-  router.get('/contacts', (req, res) => {
+  router.use('/contacts', contactsRoute());
+
+  /* router.get('/contacts', (req, res) => {
     const contactsCollection = database.collection('contacts');
   
     contactsCollection.find({}).toArray((err, docs) => {
       return res.json(docs);
     });
-  });
+  }); */
   
   router.post('/contacts', (req, res) => {
     const user = req.body;
-  
-    const contactsCollection = database.collection('contacts');
+    console.log(req.body.name);
+    console.log(req.body.address);
+    console.log(req.body.areaCode);
+    console.log(req.body.prefix);
+    console.log(req.body.lineNumber);
+    console.log(req.body.photoUrl);
+    /* const contactsCollection = database.collection('contacts');
   
     contactsCollection.insertOne(user, (err, r) => {
       if(err) {
@@ -37,7 +47,7 @@ function apiRouter(database) {
       const newRecord = r.ops[0];
   
       return res.status(201).json(newRecord);
-    });
+    }); */
   })
 
   router.post('/authenticate', (req, res) => {
@@ -70,5 +80,3 @@ function apiRouter(database) {
 
   return router;
 }
-
-module.exports = apiRouter;

@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
             Observable.throwError(data);
         } else if( data.statusCode == 401 ) {
             this.passwordError = data.error;
-        } else if( data.statusCode == 200 ){
+        } else {
             this.auth.setToken(data.token);
             this.router.navigate(['/contacts']);
        }

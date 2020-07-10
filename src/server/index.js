@@ -1,21 +1,24 @@
-const MongoClient = require('mongodb').MongoClient;
+const db = require('./dbConnection');
 const port = process.env.PORT || 3000;
 const createExpressApp = require('./create-express-app');
 
 require('dotenv').config();
 
-MongoClient.connect(process.env.DB_CONN, (err, cluster) => {
-    if(err) {
-      console.log('Database error: ' + err);
-    } else {
-      database = cluster.db('contacts-app-vm');
-      console.log('Successful database connection');
-    }
-  
+database = db.connectToServer( ( err ) => {
+    if (err) console.log(err);
+    
+    database = db.getDb();
+
     createExpressApp(database)
       .listen(port, () => {
-        console.log(`listening on http://localhost:${port}`)});
-  })
+        console.log(`listening on http://localhost:${port}`)
+      });
+  }  
+);
+
+//database = db.getDb();
+
+
   
 /* const www = process.env.WWW || './';
 

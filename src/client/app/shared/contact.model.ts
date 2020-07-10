@@ -1,6 +1,8 @@
 export interface Contact {
   name: string;
   address: string;
-  phone: string;
+  areaCode: string;
+  prefix: string;
+  lineNumber: string;
   photoUrl: string;
 }
