@@ -1,5 +1,6 @@
 const express = require('express');
 const router  = express.Router();
+const { addContactValidationRules, validate } = require('../validation/addUserValidation');
 //const db      = require('../dbConnection');
 //database      = db.getDb();
 
@@ -11,19 +12,14 @@ module.exports = () => {
       });
     });
 
-    router.post('/', (req, res) => {
+    router.post('/', addContactValidationRules(),validate, (req, res, next) => {
       const user = req.body;
-      console.log(req.body.name);
-      console.log(req.body.address);
-      console.log(req.body.areaCode);
-      console.log(req.body.prefix);
-      console.log(req.body.lineNumber);
-      console.log(req.body.photoUrl);
+
       const contactsCollection = database.collection('contacts');
     
       contactsCollection.insertOne(user, (err, r) => {
         if(err) {
-          return res.status(500).json({ error: 'Error inserting new record' });
+          return res.status(500).json({ error: 'Error inserting new contact' });
         }
     
         const newRecord = r.ops[0];

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm ,FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { Contact } from '../shared/contact.model';
 import { ApiService } from '../shared/api.service';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-contact',
@@ -18,11 +20,14 @@ export class AddContactComponent implements OnInit {
   firstnameServerError = '';
   lastnameServerError = '';
   addressServerError = '';
-  phoneServerError = '';
+  areaCodeServerError = '';
+  prefixCodeServerError = '';
+  landLineCodeServerError = '';
   photoServerError = '';
 
   constructor(public api: ApiService,
-              private fb: FormBuilder
+              private fb: FormBuilder,
+              private router: Router
              ) { 
                   this.validateLoginForm();
                }
@@ -66,7 +71,8 @@ export class AddContactComponent implements OnInit {
     const formValues = Object.assign({}, this.addContactForm.value);
 
     const contact: Contact = {
-      name      : `${formValues.firstName} ${formValues.lastName}`,
+      firstName : formValues.firstName,
+      lastName  : formValues.lastName,
       address   : formValues.address,
       areaCode  : formValues.areaCode,
       prefix    : formValues.prefix,
@@ -76,9 +82,22 @@ export class AddContactComponent implements OnInit {
 
     this.api.post('/contacts',contact )
       .subscribe(data => {
-        this.addContactForm.reset();
-        this.loading = false;
-        this.newContact = data;
+        if( data.statusCode == 422 ){
+          console.log('from add-contact.component.js' + JSON.stringify(data.error));
+          this.firstnameServerError = data.error.firstName;
+          this.lastnameServerError = data.error.lastName;
+          this.addressServerError = data.error.address;
+          this.areaCodeServerError = data.error.areaCode;
+          this.prefixCodeServerError = data.error.prefix;
+          this.landLineCodeServerError= data.error.lineNumber;
+          this.photoServerError = data.error.photoUrl;
+          this.addContactForm.reset(this.addContactForm.value);
+          this.router.navigate(['new']);
+        } else {
+          this.addContactForm.reset();
+          this.loading = false;
+          this.newContact = data;
+       }
       });
   }
 

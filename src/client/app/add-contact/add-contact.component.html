@@ -6,7 +6,7 @@
       <div class="header">
         New contact added!
       </div>
-      <p>Name: {{newContact.name}}</p>
+      <p>Name: {{newContact.firstName}} {{newContact.lastName}}</p>
     </div>
   </div>
   <form class="ui big form" [formGroup]="addContactForm" (ngSubmit)="onSubmit()" [class.loading]="loading" novalidate>
@@ -61,8 +61,8 @@
             The max no. of lineNumber is 5 !
           </small>
         </small>    
-        <small *ngIf='phoneServerError'>
-          {{phoneServerError}}
+        <small *ngIf='areaCodeServerError'>
+          {{areaCodeServerError}}
         </small>
       </div>
       <div class="field">
@@ -77,8 +77,8 @@
             The max no. of lineNumber is 3 !
           </small>
         </small>
-        <small *ngIf='phoneServerError'>
-          {{phoneServerError}}
+        <small *ngIf='prefixCodeServerError'>
+          {{prefixCodeServerError}}
         </small>
       </div>
       <div class="field">
@@ -93,8 +93,8 @@
             The max no. of lineNumber is 4 !
           </small>
         </small>    
-        <small *ngIf='phoneServerError'>
-          {{phoneServerError}}
+        <small *ngIf='landLineCodeServerError'>
+          {{landLineCodeServerError}}
         </small>
       </div>
     </div>

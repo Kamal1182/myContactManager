@@ -8,8 +8,8 @@
           Enter your username!
         </small>
       </small>    
-      <small *ngIf='userError'>
-        {{userError}}
+      <small *ngIf='userServerError'>
+        {{userServerError}}
       </small>
   </div>
 
@@ -21,8 +21,8 @@
           Enter your password!
         </small>
       </small>
-      <small *ngIf="passwordError">
-        Incorrect password!
+      <small *ngIf="passwordServerError">
+        {{passwordServerError}}
       </small>
     </div>
     

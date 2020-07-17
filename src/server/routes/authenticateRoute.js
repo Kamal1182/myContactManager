@@ -1,9 +1,9 @@
 const express = require('express');
 const router  = express.Router();
-const jwt      = require('jsonwebtoken');
-const bcrypt   = require('bcrypt');
-//const db      = require('../dbConnection');
-//database      = db.getDb();
+const jwt     = require('jsonwebtoken');
+const bcrypt  = require('bcrypt');
+//const db    = require('../dbConnection');
+//database    = db.getDb();
 
 module.exports = () => {
   router.post('/', (req, res) => {
@@ -13,11 +13,11 @@ module.exports = () => {
   
       userCollection.findOne({username: user.username}, (err, result) => {
         if(!result) {
-          return res.status(404).json({ error: 'user not found' });
+          return res.status(404).json({ error: 'user not found!' });
         }
   
         if(!bcrypt.compareSync(user.password, result.password)) {
-          return res.status(401).json({ error: 'incorrect password' });
+          return res.status(401).json({ error: 'incorrect password!' });
         }
   
         const payload = {

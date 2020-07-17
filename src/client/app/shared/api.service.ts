@@ -60,12 +60,13 @@ export class ApiService {
   onRequestError(res: Response) {
     const statusCode = res.status;
     const body = res.json();
-
+    
     const error = {
       statusCode : statusCode,
       error : body.error
     }
 
+    console.log('from api.service.ts')
     console.log(error);
     
     throwError(error);

@@ -13,8 +13,8 @@ import { Observable } from 'rxjs';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-  userError='';
-  passwordError='';
+  userServerError='';
+  passwordServerError='';
 
   constructor(private api: ApiService,
               private auth: AuthService,
@@ -41,8 +41,8 @@ export class LoginComponent implements OnInit {
 
     const formValues = this.loginForm.value;
 
-    this.userError = '';
-    this.passwordError = '';
+    this.userServerError = '';
+    this.passwordServerError = '';
 
     const payload = { 
       username: formValues.username,
@@ -52,10 +52,11 @@ export class LoginComponent implements OnInit {
     this.api.post('authenticate',payload )
       .subscribe(data => {
         if( data.statusCode == 404 ) {
-            this.userError = data.error;
+            this.userServerError = data.error;
             Observable.throwError(data);
         } else if( data.statusCode == 401 ) {
-            this.passwordError = data.error;
+            this.passwordServerError = data.error;
+            //Observable.throwError(data);
         } else {
             this.auth.setToken(data.token);
             this.router.navigate(['contacts']);

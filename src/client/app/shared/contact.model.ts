@@ -1,5 +1,6 @@
 export interface Contact {
-  name: string;
+  firstName: string;
+  lastName: string;
   address: string;
   areaCode: string;
   prefix: string;

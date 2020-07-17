@@ -1,8 +1,8 @@
 const express  = require('express');
 const checkJwt = require('express-jwt');
 const router   = express.Router();
-const contactsRoute = require('./contacts')
-const authenticateRoute = require('./authenticate')
+const contactsRoute = require('./contactsRoute');
+const authenticateRoute = require('./authenticateRoute');
 //const db       = require('../dbConnection');
 //database = db.getDb();
 
@@ -14,7 +14,7 @@ module.exports = () => {
   
   router.use((err, req, res, next) => {
     if(err.name === 'UnauthorizedError') {
-      res.status(401).send({ error: err.message});
+      res.status(401).send({ errors : err.message});
     }
   })
   
