@@ -57,6 +57,9 @@ export class LoginComponent implements OnInit {
         } else if( data.statusCode == 401 ) {
             this.passwordServerError = data.error;
             //Observable.throwError(data);
+        } else if( data.statusCode == 422 ) {
+            this.userServerError = data.error.username;
+            this.passwordServerError = data.error.password;
         } else {
             this.auth.setToken(data.token);
             this.router.navigate(['contacts']);

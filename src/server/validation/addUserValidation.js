@@ -1,5 +1,12 @@
 const { body, validationResult } = require('express-validator');
 
+const loginValidationRules = () => {
+  return [
+    body('username').trim().not().isEmpty().withMessage('Username is required.'),
+    body('password').not().isEmpty().withMessage('password is required.'),
+  ]
+}
+
 const addContactValidationRules = () => {
   return [
     body('firstName').trim().not().isEmpty().withMessage('first name is required.')
@@ -14,7 +21,7 @@ const addContactValidationRules = () => {
     body('prefix').isNumeric().withMessage('Prefix code should only be a number')
       .isLength({ min: 3 }).withMessage('Prefix code should not be 3 numbers'),
     body('lineNumber').isNumeric().withMessage('Line number should only be a number')
-      .isLength({ min: 4 }).withMessage('Area code should not be 4 numbers'),
+      .isLength({ min: 4 }).withMessage('Line number should not be 4 numbers'),
     body('photoUrl').isLength({ min: 3 }).withMessage('photo url should not be less than 3 characters'),
   ]
 }
@@ -31,6 +38,7 @@ const validate = (req, res, next) => {
    */
   const extractedErrors = {};
   errors.array().map(err => extractedErrors[err.param] = err.msg );
+  console.log('from addUserValidation');
   console.log(extractedErrors);
   
   return res.status(422).json({
@@ -40,6 +48,7 @@ const validate = (req, res, next) => {
 
 
 module.exports = {
+  loginValidationRules,
   addContactValidationRules,
   validate
 }

@@ -2,11 +2,12 @@ const express = require('express');
 const router  = express.Router();
 const jwt     = require('jsonwebtoken');
 const bcrypt  = require('bcrypt');
+const { loginValidationRules, validate } = require('../validation/addUserValidation');
 //const db    = require('../dbConnection');
 //database    = db.getDb();
 
 module.exports = () => {
-  router.post('/', (req, res) => {
+  router.post('/',loginValidationRules(), validate, (req, res, next) => {
       const user = req.body;
   
       const userCollection = database.collection('users');

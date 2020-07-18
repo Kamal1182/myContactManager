@@ -14,7 +14,7 @@ module.exports = () => {
   
   router.use((err, req, res, next) => {
     if(err.name === 'UnauthorizedError') {
-      res.status(401).send({ errors : err.message});
+      res.status(401).send({ error : err.message});
     }
   })
   
