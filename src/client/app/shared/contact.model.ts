@@ -5,5 +5,5 @@ export interface Contact {
   areaCode: string;
   prefix: string;
   lineNumber: string;
-  photoUrl: string;
+  photoUrl: any;
 }

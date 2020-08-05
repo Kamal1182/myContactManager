@@ -100,10 +100,16 @@
     </div>
     <div class="field">
       <label>Photo URL</label>
-      <input #photo formControlName="photo" type="text" placeholder="http://cdn.com/profile.jpg" name="photo">
+      <input #photo formControlName="photo" type="file" placeholder="http://cdn.com/profile.jpg" name="photo" (change)="fileChangeEvent($event)">
       <small *ngIf="addContactForm.controls['photo'].invalid && (addContactForm.controls['photo'].dirty || addContactForm.controls['photo'].touched)">
         <small *ngIf="addContactForm.controls['photo'].errors.required">
           Enter your photoURL!
+        </small>
+        <small *ngIf="addContactForm.controls['photo'].errors.image">
+          Photo should not exceed 100x200 pixels!
+        </small>
+        <small *ngIf="addContactForm.controls['photo'].errors.extension">
+          Photo should be in jpeg, jpg or png format!
         </small>
       </small>    
       <small *ngIf='photoServerError'>

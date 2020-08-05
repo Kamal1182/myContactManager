@@ -22,7 +22,8 @@ const addContactValidationRules = () => {
       .isLength({ min: 3 }).withMessage('Prefix code should not be 3 numbers'),
     body('lineNumber').isNumeric().withMessage('Line number should only be a number')
       .isLength({ min: 4 }).withMessage('Line number should not be 4 numbers'),
-    body('photoUrl').isLength({ min: 3 }).withMessage('photo url should not be less than 3 characters'),
+    //body('photoUrl').isLength({ min: 3 }).withMessage('photo url should not be less than 3 characters'),
+    //body('photoUrl').notEmpty().withMessage('You must enter a photo'),
   ]
 }
 

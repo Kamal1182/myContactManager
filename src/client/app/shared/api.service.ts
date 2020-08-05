@@ -36,6 +36,7 @@ export class ApiService {
   }
 
   request(url: String, method: RequestMethod, body?: Object) {
+
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `Bearer ${this.auth.getToken()}`);

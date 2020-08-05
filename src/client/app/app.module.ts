@@ -15,6 +15,7 @@ import { ApiService } from './shared/api.service';
 import { AuthService } from './shared/auth.service';
 import { AuthGuard } from './auth.guard';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
+import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators"
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
     HttpModule,
     AppRoutingModule,
     SlimLoadingBarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RxReactiveFormsModule
   ],
   providers: [ApiService, AuthService, AuthGuard],
   bootstrap: [AppComponent]

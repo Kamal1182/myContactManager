@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const apiRouter = require('./routes/api-router');
+const fileUpload = require('express-fileupload');
 
 function createExpressApp(database) {
   const app = express();

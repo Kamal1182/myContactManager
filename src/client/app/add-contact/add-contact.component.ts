@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm ,FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { NgForm ,FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
 import { Contact } from '../shared/contact.model';
 import { ApiService } from '../shared/api.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
 @Component({
   selector: 'app-add-contact',
@@ -37,9 +38,6 @@ export class AddContactComponent implements OnInit {
       firstName:  ["", Validators.required],
       lastName:   ["", Validators.required],
       address:    ["", Validators.required],
-      // areaCode:   ["", Validators.required],
-      // prefix:     ["", Validators.required],
-      // lineNumber: ["", Validators.required],
       areaCode:   ["", Validators.compose
                         ([
                           Validators.maxLength(5),
@@ -58,11 +56,45 @@ export class AddContactComponent implements OnInit {
                           Validators.required
                         ])
                   ],
-      photo:      ["", Validators.required]
+      photo:      ["", Validators.compose
+                        ([
+                          RxwebValidators.required(),
+                          RxwebValidators.image({maxHeight:100,maxWidth:100}),
+                          RxwebValidators.extension({extensions:["jpeg","jpg","gif"]})
+                        ])              
+                  ]
     })
   }
 
   ngOnInit() {
+  }
+  
+  //define the variable containing the image extension and ASCII data
+  imageBase64 = {};
+
+  fileChangeEvent(E) {
+    if(E != undefined){
+      //this.imageBase64["extension"] = E.target.files[0].name.split('.')[1];
+      this.imageBase64["extension"] = E.target.files[0].type.replace(/^.*[\\\/]/, '');
+      var files = E.target.files;
+      var file = files[0];
+
+      if (files && file) {
+        var reader = new FileReader();
+        
+        reader.onload = this._handleReaderLoaded.bind(this);
+
+        reader.readAsBinaryString(file);
+        
+      }
+    }
+  }
+
+  _handleReaderLoaded(readerEvt) {
+    //console.log(readerEvt);
+    var binaryString = readerEvt.target.result;
+    //this.imageBase64["data"] = binaryString;
+    this.imageBase64["data"] = btoa(binaryString);
   }
 
   onSubmit() {
@@ -70,17 +102,20 @@ export class AddContactComponent implements OnInit {
 
     const formValues = Object.assign({}, this.addContactForm.value);
 
-    const contact: Contact = {
+     const contact : Contact = {
       firstName : formValues.firstName,
       lastName  : formValues.lastName,
       address   : formValues.address,
       areaCode  : formValues.areaCode,
       prefix    : formValues.prefix,
       lineNumber: formValues.lineNumber,
-      photoUrl  : formValues.photo
+      photoUrl  : this.imageBase64
     };
 
-    this.api.post('/contacts',contact )
+    //console.log(contact);
+    //this.loading = false;
+    //this.addContactForm.reset(this.addContactForm.value);
+    this.api.post( 'contacts', contact )
       .subscribe(data => {
         if( data.statusCode == 422 ){
           console.log('from add-contact.component.js' + JSON.stringify(data.error));
@@ -89,16 +124,16 @@ export class AddContactComponent implements OnInit {
           this.addressServerError = data.error.address;
           this.areaCodeServerError = data.error.areaCode;
           this.prefixCodeServerError = data.error.prefix;
-          this.landLineCodeServerError= data.error.lineNumber;
+          this.landLineCodeServerError = data.error.lineNumber;
           this.photoServerError = data.error.photoUrl;
+          this.loading = false;
           this.addContactForm.reset(this.addContactForm.value);
-          this.router.navigate(['new']);
         } else {
           this.addContactForm.reset();
           this.loading = false;
           this.newContact = data;
        }
-      });
+      }); 
   }
 
 }
