@@ -94,7 +94,7 @@ export class AddContactComponent implements OnInit {
     //console.log(readerEvt);
     var binaryString = readerEvt.target.result;
     //this.imageBase64["data"] = binaryString;
-    this.imageBase64["data"] = btoa(binaryString);
+    this.imageBase64["data"] = 'data:image/jpeg;base64,' + btoa(binaryString);
   }
 
   onSubmit() {
@@ -103,9 +103,11 @@ export class AddContactComponent implements OnInit {
     const formValues = Object.assign({}, this.addContactForm.value);
 
      const contact : Contact = {
+      name      : formValues.name,
       firstName : formValues.firstName,
       lastName  : formValues.lastName,
       address   : formValues.address,
+      phone     : formValues.phone,
       areaCode  : formValues.areaCode,
       prefix    : formValues.prefix,
       lineNumber: formValues.lineNumber,

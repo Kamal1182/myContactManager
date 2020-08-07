@@ -1,9 +1,13 @@
 <div class="ui card">
   <div class="image">
-    <img [src]="contact?.photoUrl">
+    <div *ngIf="contact.photoUrl.data; then binaryImage else serverImage"></div>
+    <ng-template #binaryImage> <img [src]="contact?.photoUrl.data"> </ng-template>
+    <ng-template #serverImage> <img [src]="contact?.photoUrl"> </ng-template>
   </div>
   <div class="content">
-    <a class="header">{{contact.firstName}} {{contact.lastName}}</a>
+    <div *ngIf="contact.name; then name else firstNameLastName"></div>
+    <ng-template #name> <a class="header">{{contact.name}}</a> </ng-template>
+    <ng-template #firstNameLastName> <a class="header">{{contact.firstName}} {{contact.lastName}}</a> </ng-template>
     <div class="description">
       {{contact.address}}
     </div>
@@ -11,7 +15,9 @@
   <div class="extra content">
     <span>
       <i class="call icon"></i>
-      {{contact.areaCode}} {{contact.prefix}}-{{contact.lineNumber}}
+      <div *ngIf="contact.phone; then phoneDataOneValue else phoneDataDetails"></div>
+      <ng-template #phoneDataOneValue> {{ contact.phone }} </ng-template>
+      <ng-template #phoneDataDetails> {{contact.areaCode}} {{contact.prefix}}-{{contact.lineNumber}} </ng-template>
     </span>
   </div>
 </div>
