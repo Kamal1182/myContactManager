@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@angular/core';
 import { Contact } from '../shared/contact.model';
 
 @Component({
@@ -9,6 +9,10 @@ import { Contact } from '../shared/contact.model';
 export class ContactComponent implements OnInit {
 
   @Input() contact: Contact;
+  
+  @Output() contactIdDeleteEvent = new EventEmitter<string>();
+  
+  @Output() contactIdEditEvent = new EventEmitter<string>();
 
   @HostBinding('class') columnClass = 'four wide column';
 
@@ -17,4 +21,15 @@ export class ContactComponent implements OnInit {
   ngOnInit() {
   }
 
+  editContactId(id) {
+    console.log('from contact.component.ts');
+    console.log(id);
+    this.contactIdEditEvent.emit(id);
+  }
+
+  deleteContactId(id) {
+    console.log('from contact.component.ts');
+    console.log(id);
+    this.contactIdDeleteEvent.emit(id);
+  }
 }

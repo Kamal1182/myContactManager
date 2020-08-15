@@ -1,7 +1,8 @@
 const express = require('express');
 const router  = express.Router();
 const { addContactValidationRules, validate } = require('../validation/addUserValidation');
-fs = require('fs');
+const fs = require('fs');
+const ObjectId = require('mongodb').ObjectID;
 //const db      = require('../dbConnection');
 //database      = db.getDb();
 
@@ -30,7 +31,8 @@ module.exports = () => {
       } */
 
       const contactsCollection = database.collection('contacts');
-    
+      
+      req.body.photoUrl.data = 'data:image/jpeg;base64,' + req.body.photoUrl.data;
       contactsCollection.insertOne(user, (err, r) => {
         if(err) {
           return res.status(500).json({ error: 'Error inserting new contact' });
@@ -41,6 +43,24 @@ module.exports = () => {
         return res.status(201).json(newRecord);
       });
     })
+
+    router.delete('/:id', (req, res) => {
+      const contactsCollection = database.collection('contacts');
+      contactsCollection.deleteOne({ "_id" : ObjectId(req.params.id) })
+        .then(deletedContact => {
+          if(deletedContact) {
+            console.log(`Successfully deleted document that had the form: ${deletedContact}.`)
+          } else {
+            console.log("No document matches the provided query.")
+          }
+          return res.status(201).json(deletedContact);
+        })
+        .catch(err => console.error(`Failed to find and delete document: ${err}`))
+
+      /* find({}).toArray((err, docs) => {
+        return res.json(docs);
+      }); */
+    });
 
   return router;
 };

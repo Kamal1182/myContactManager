@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID
 require('dotenv').config();
 
 var _db;
@@ -6,7 +7,7 @@ var _db;
 module.exports = {
 
     connectToServer : function ( callback ) {
-      MongoClient.connect(process.env.DB_CONN, (err, cluster) => {
+      MongoClient.connect(process.env.DB_CONN, { useUnifiedTopology: true },  (err, cluster) => {
         if(err) {
           console.log('Database error: ' + err);
         } else {

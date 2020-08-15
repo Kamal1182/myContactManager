@@ -59,7 +59,7 @@ export class AddContactComponent implements OnInit {
       photo:      ["", Validators.compose
                         ([
                           RxwebValidators.required(),
-                          RxwebValidators.image({maxHeight:100,maxWidth:100}),
+                          RxwebValidators.image({maxHeight:800,maxWidth:800}),
                           RxwebValidators.extension({extensions:["jpeg","jpg","gif"]})
                         ])              
                   ]
@@ -94,7 +94,7 @@ export class AddContactComponent implements OnInit {
     //console.log(readerEvt);
     var binaryString = readerEvt.target.result;
     //this.imageBase64["data"] = binaryString;
-    this.imageBase64["data"] = 'data:image/jpeg;base64,' + btoa(binaryString);
+    this.imageBase64["data"] = btoa(binaryString);
   }
 
   onSubmit() {
@@ -103,6 +103,7 @@ export class AddContactComponent implements OnInit {
     const formValues = Object.assign({}, this.addContactForm.value);
 
      const contact : Contact = {
+      _id: undefined,
       name      : formValues.name,
       firstName : formValues.firstName,
       lastName  : formValues.lastName,

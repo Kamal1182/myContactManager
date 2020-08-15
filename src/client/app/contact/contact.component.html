@@ -20,4 +20,8 @@
       <ng-template #phoneDataDetails> {{contact.areaCode}} {{contact.prefix}}-{{contact.lineNumber}} </ng-template>
     </span>
   </div>
+  <div class="extra content">
+    <div><button type="button" class="btn btn-outline-primary float-left" (click)="editContactId(contact._id)">Edit</button></div>
+    <div><button type="button" class="btn btn-outline-danger float-right" (click)="deleteContactId(contact._id)">Delete</button></div>
+  </div>
 </div>
