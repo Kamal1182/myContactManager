@@ -15,14 +15,8 @@ export class ContactListComponent implements OnInit {
 
   ngOnInit() {
     this.api.get('contacts')
-      .subscribe(data => this.contacts = data);
-  }
-
-  deleteContact(editContactId) {
-    console.log('from contact-list.component.ts');
-    console.log(editContactId);
-    this.api.delete('contacts/'+editContactId)
-      .subscribe();
-    location.reload();
+      .subscribe(data => {
+        this.contacts = data;
+      });
   }
 }

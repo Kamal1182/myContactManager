@@ -15,7 +15,9 @@ import { ApiService } from './shared/api.service';
 import { AuthService } from './shared/auth.service';
 import { AuthGuard } from './auth.guard';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators"
+import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DeleteContactModalComponent } from './delete-contact-modal/delete-contact-modal.component'
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators"
     ContactListComponent,
     ContactComponent,
     AddContactComponent,
-    LoginComponent
+    LoginComponent,
+    DeleteContactModalComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,8 @@ import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators"
     AppRoutingModule,
     SlimLoadingBarModule,
     ReactiveFormsModule,
-    RxReactiveFormsModule
+    RxReactiveFormsModule,
+    NgbModule
   ],
   providers: [ApiService, AuthService, AuthGuard],
   bootstrap: [AppComponent]

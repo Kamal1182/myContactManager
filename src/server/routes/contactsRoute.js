@@ -10,7 +10,7 @@ module.exports = () => {
   router.get('/', (req, res) => {
       const contactsCollection = database.collection('contacts');
       contactsCollection.find({}).toArray((err, docs) => {
-        return res.json(docs);
+        return res.status(200).json(docs);
       });
     });
 
@@ -46,14 +46,18 @@ module.exports = () => {
 
     router.delete('/:id', (req, res) => {
       const contactsCollection = database.collection('contacts');
-      contactsCollection.deleteOne({ "_id" : ObjectId(req.params.id) })
+
+      contactsCollection.findOneAndDelete({ "_id" : ObjectId(req.params.id) })
         .then(deletedContact => {
-          if(deletedContact) {
-            console.log(`Successfully deleted document that had the form: ${deletedContact}.`)
-          } else {
-            console.log("No document matches the provided query.")
+          if(deletedContact.value) {
+            console.log(`Successfully deleted document that had the form: `);
+            console.log(deletedContact);
+            return res.status(201).json(deletedContact);
+          } else if(deletedContact.value == null) {
+            console.log("No document matches the provided query.");
+            console.log(deletedContact);
+            return res.status(204).json(deletedContact);
           }
-          return res.status(201).json(deletedContact);
         })
         .catch(err => console.error(`Failed to find and delete document: ${err}`))
 

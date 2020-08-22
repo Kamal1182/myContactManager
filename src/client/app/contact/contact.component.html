@@ -21,7 +21,7 @@
     </span>
   </div>
   <div class="extra content">
-    <div><button type="button" class="btn btn-outline-primary float-left" (click)="editContactId(contact._id)">Edit</button></div>
-    <div><button type="button" class="btn btn-outline-danger float-right" (click)="deleteContactId(contact._id)">Delete</button></div>
+    <app-delete-contact-modal [contact]="contact"></app-delete-contact-modal>
   </div>
 </div>
+

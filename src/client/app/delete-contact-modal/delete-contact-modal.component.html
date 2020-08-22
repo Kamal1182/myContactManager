@@ -1,0 +1,21 @@
+<div><button type="button" class="btn btn-outline-primary float-left" (click)="editContactId(contact._id)">Edit</button></div>
+<div><button type="button" class="btn btn-outline-danger float-right" (click)="deleteContactById(contact._id, confirmDeleteModal)">Delete</button></div>
+
+<ng-template #confirmDeleteModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Delete Contact</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Are you sure you want to delete <span class="text-primary">{{ contact.firstName }} {{ contact.lastName }} {{ contact.name }}</span> contact data?</strong></p>
+      <p>All information associated to this user contact will be permanently deleted.
+      <span class="text-danger">This operation can not be undone.</span>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary mr-auto" (click)="modal.dismiss('cancel click')">Cancel</button>
+      <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
+    </div>
+  </ng-template>
