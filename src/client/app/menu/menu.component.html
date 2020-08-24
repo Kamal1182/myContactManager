@@ -9,10 +9,7 @@
       <h1>Contact Manager</h1>
     </div>
     <div class="item" *ngIf=auth.isLoggedIn()>
-      <button [routerLink]="['/new']" class="ui basic button">
-        <i class="add user icon" aria-hidden="true"></i>
-        Add Contact
-      </button>
+      <app-add-contact-modal></app-add-contact-modal>
     </div>
   </div>
   <div class="right menu" *ngIf=auth.isLoggedIn()>

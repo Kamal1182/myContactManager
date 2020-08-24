@@ -17,7 +17,8 @@ import { AuthGuard } from './auth.guard';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DeleteContactModalComponent } from './delete-contact-modal/delete-contact-modal.component'
+import { DeleteContactModalComponent } from './delete-contact-modal/delete-contact-modal.component';
+import { AddContactModalComponent } from './add-contact-modal/add-contact-modal.component'
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DeleteContactModalComponent } from './delete-contact-modal/delete-conta
     ContactComponent,
     AddContactComponent,
     LoginComponent,
-    DeleteContactModalComponent
+    DeleteContactModalComponent,
+    AddContactModalComponent
   ],
   imports: [
     BrowserModule,
