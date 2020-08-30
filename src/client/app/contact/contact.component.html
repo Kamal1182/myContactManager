@@ -21,7 +21,7 @@
     </span>
   </div>
   <div class="extra content">
-    <app-delete-contact-modal [contact]="contact"></app-delete-contact-modal>
+    <app-delete-contact-modal [contact]="contact" (refreshContactsEvent)="refeshContacts($event)"></app-delete-contact-modal>
   </div>
 </div>
 

@@ -19,4 +19,8 @@ export class ContactListComponent implements OnInit {
         this.contacts = data;
       });
   }
+
+  refeshContacts(event){
+    this.ngOnInit();
+  }
 }

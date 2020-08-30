@@ -14,6 +14,8 @@ export class DeleteContactModalComponent implements OnInit {
 
   @Input() contact: Contact;
 
+  @Output() refreshContactsEvent = new EventEmitter();
+
   constructor(private modalService: NgbModal,
               public api: ApiService){ }
 
@@ -35,7 +37,8 @@ export class DeleteContactModalComponent implements OnInit {
           if(data !== null ) {console.log(data.value.firstName)};
           console.log(data);
         });
-      location.reload();
+      this.refreshContactsEvent.emit();
+      //location.reload();
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       console.log(this.closeResult);
