@@ -11,7 +11,13 @@ export class ContactListComponent implements OnInit {
 
   contacts: Contact[];
 
-  constructor(public api: ApiService) { }
+  constructor(public api: ApiService) {
+    api.refreshCall$.subscribe(
+      () => {
+        this.refeshContacts(null);
+      }  
+    );
+  }
 
   ngOnInit() {
     this.api.get('contacts')

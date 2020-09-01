@@ -5,7 +5,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/throttle';
 import { Observable } from 'rxjs/Observable';
-import { throwError, of } from 'rxjs';
+import { throwError, of, Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
@@ -14,6 +14,14 @@ import { AuthService } from './auth.service';
 export class ApiService {
 
   private baseUrl = environment.apiUrl;
+
+  private refreshNeeded = new Subject();
+
+  refreshCall$ = this.refreshNeeded.asObservable();
+
+  makeRefresh() {
+    this.refreshNeeded.next();
+  }
 
   constructor(private http: Http,
               private auth: AuthService

@@ -164,6 +164,7 @@ export class AddContactModalComponent implements OnInit {
           this.addContactForm.reset();
           this.loading = false;
           this.newContact = data;
+          this.api.makeRefresh();
        }
       }); 
   }  
