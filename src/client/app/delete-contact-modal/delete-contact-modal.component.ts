@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Contact } from '../shared/contact.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from '../shared/api.service';
@@ -13,8 +13,6 @@ export class DeleteContactModalComponent implements OnInit {
   closeResult = '';
 
   @Input() contact: Contact;
-
-  @Output() refreshContactsEvent = new EventEmitter();
 
   constructor(private modalService: NgbModal,
               public api: ApiService){ }
@@ -37,7 +35,8 @@ export class DeleteContactModalComponent implements OnInit {
           if(data !== null ) {console.log(data.value.firstName)};
           console.log(data);
         });
-      this.refreshContactsEvent.emit();
+      this.api.makeRefresh();
+      //this.refreshContactsEvent.emit();
       //location.reload();
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

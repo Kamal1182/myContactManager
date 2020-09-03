@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, HostBinding } from '@angular/core';
 import { Contact } from '../shared/contact.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,8 +10,6 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class ContactComponent implements OnInit {
 
   @Input() contact: Contact;
-
-  @Output() refreshContactsEvent = new EventEmitter();
   
   @HostBinding('class') columnClass = 'four wide column';
 
@@ -20,7 +18,4 @@ export class ContactComponent implements OnInit {
   ngOnInit() {
   }
   
-  refeshContacts(event){
-    this.refreshContactsEvent.emit(event);
-  }
 }
