@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   userServerError='';
   passwordServerError='';
+  sessionExpired : boolean = false;
 
   constructor(private api: ApiService,
               private auth: AuthService,
@@ -22,6 +23,9 @@ export class LoginComponent implements OnInit {
               private fb: FormBuilder
              ) { 
                this.validateLoginForm();
+               if(this.router.getCurrentNavigation().extras.state) {
+                 this.sessionExpired = this.router.getCurrentNavigation().extras.state.sessionExpired;
+               }
              }
 
    validateLoginForm() {

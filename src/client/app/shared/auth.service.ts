@@ -20,8 +20,12 @@ export class AuthService {
     return this.getToken() !== null;
   }
 
-  logout() {
+  logout(sessionExpired? : boolean) {
     localStorage.removeItem(this.storageKey);
-    this.router.navigate(['login']);
+    if(sessionExpired) {
+      this.router.navigate(['login'], { state: { sessionExpired: true } });
+    } else {
+      this.router.navigate(['login'], { state: { sessionExpired: false} });
+    }
   }
 }

@@ -1,4 +1,14 @@
 <div class="login-container">
+  <div class="ui icon message" *ngIf="sessionExpired">
+    <i class="exclamation circle icon"></i>
+    <i class="close icon" (click)="sessionExpired = null"></i>
+    <div class="content">
+      <div class="header">
+        Session Expired!
+      </div>
+        Please login again!
+    </div>
+  </div>
   <form class="ui big form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
     <div class="field">
       <label >Username</label>
