@@ -75,7 +75,7 @@ export class ApiService {
       error : body.error
     }
 
-    if(body.error = 'jwt expired') {
+    if(body.error == 'jwt expired') {
       this.auth.logout(true);
     }
 

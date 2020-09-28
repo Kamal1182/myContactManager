@@ -11,7 +11,8 @@ const addContactValidationRules = () => {
   return [
     body('firstName').trim().not().isEmpty().withMessage('first name is required.')
       .isLength({ min: 3 }).withMessage('First Name should not be less than 3 characters.')
-      .isAlpha().withMessage('First Name should only be alphabetic.'),
+      //.isAlpha().withMessage('First Name should only be alphabetic.'),
+      .matches(/^([A-Z' ]+)(?:[A-Z])$/i).withMessage('First Name should only be alphabetic.'),
     body('lastName').trim().not().isEmpty().withMessage('first name is required.')
       .isLength({ min: 3 }).withMessage('Last Name should not be less than 3 characters.')
       .isAlpha().withMessage('Last Name should only be alphabetic.'),

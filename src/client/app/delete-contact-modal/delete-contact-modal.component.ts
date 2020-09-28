@@ -20,10 +20,10 @@ export class DeleteContactModalComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  editContactId(id) {
+/*   editContactId(id) {
     console.log('from contact.component.ts');
     console.log(id);
-  }
+  } */
 
   deleteContactById(contactId, confirmDeleteModal) {
     this.modalService.open(confirmDeleteModal, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {

@@ -1,0 +1,141 @@
+<div><button type="button" class="btn btn-outline-primary float-left" (click)="editContactId(contact._id, editContactModal)">Edit</button></div>
+
+<ng-template #editContactModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Edit Contact</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+      <div class="add-form-container">
+        <div class="ui icon message" *ngIf="contactEdited">
+          <i class="notched check green icon"></i>
+          <i class="close icon" (click)="contactEdited = null"></i>
+          <div class="content">
+            <div class="header">
+              Contact Updated!
+            </div>
+            <p>Name: {{contactEdited.firstName}} {{contactEdited.lastName}}</p>
+          </div>
+        </div>
+        <form class="ui big form" [formGroup]="editContactForm" (ngSubmit)="onSubmit()" [class.loading]="loading" novalidate>
+          <div class="equal width fields">
+            <div class="three wide field">
+              <div class="image">
+                <div *ngIf="contact.photoUrl.data; then binaryImage else serverImage"></div>
+                  <ng-template #binaryImage> <img [src]="contact?.photoUrl.data" width="140" height="160"> </ng-template>
+                  <ng-template #serverImage> <img [src]="contact?.photoUrl" width="140" height="160"> </ng-template>
+              </div>
+            </div>
+            <div class="field">
+              <label>First Name</label>
+              <input #firstName formControlName="firstName" type="text" name="firstName">
+              <small *ngIf="editContactForm.controls['firstName'].invalid && (editContactForm.controls['firstName'].dirty || editContactForm.controls['firstName'].touched)">
+                <small *ngIf="editContactForm.controls['firstName'].errors.required">
+                  Enter your first name!
+                </small>
+              </small>    
+              <small *ngIf='firstnameServerError'>
+                {{firstnameServerError}}
+              </small>
+            </div>
+            <div class="field">
+              <label>Last Name</label>
+              <input #lastName formControlName="lastName" type="text" placeholder="Last Name" name="lastName">
+              <small *ngIf="editContactForm.controls['lastName'].invalid && (editContactForm.controls['lastName'].dirty || editContactForm.controls['lastName'].touched)">
+                <small *ngIf="editContactForm.controls['lastName'].errors.required">
+                  Enter your last name!
+                </small>
+              </small>    
+              <small *ngIf='lastnameServerError'>
+                {{lastnameServerError}}
+              </small>
+            </div>
+          </div>
+          <div class="field">
+            <label>Address</label>
+            <input #address formControlName="address" type="text" placeholder="Address" name="address">
+            <small *ngIf="editContactForm.controls['address'].invalid && (editContactForm.controls['address'].dirty || editContactForm.controls['address'].touched)">
+              <small *ngIf="editContactForm.controls['address'].errors.required">
+                Enter your address!
+              </small>
+            </small>    
+            <small *ngIf='addressServerError'>
+              {{addressServerError}}
+            </small>
+          </div>
+          <div class="equal width fields">
+            <div class="field">
+              <label>Phone</label>
+              <!-- maxlength="5" -->
+              <input #areaCode formControlName="areaCode" type="text" placeholder="(###)" name="areaCode">
+              <small *ngIf="editContactForm.controls['areaCode'].invalid && (editContactForm.controls['areaCode'].dirty || editContactForm.controls['areaCode'].touched)">
+                <small *ngIf="editContactForm.controls['areaCode'].errors.required">
+                  Enter your area code!
+                </small>
+                <small *ngIf="editContactForm.controls['areaCode'].errors.maxlength">
+                  The max no. of lineNumber is 5 !
+                </small>
+              </small>    
+              <small *ngIf='areaCodeServerError'>
+                {{areaCodeServerError}}
+              </small>
+            </div>
+            <div class="field">
+              <label>&nbsp;</label>
+              <!-- maxlength="3" -->
+              <input #prefix formControlName="prefix" type="text" placeholder="###" name="prefix" >
+              <small *ngIf="editContactForm.controls['prefix'].invalid && (editContactForm.controls['prefix'].dirty || editContactForm.controls['prefix'].touched)">
+                <small *ngIf="editContactForm.controls['prefix'].errors.required">
+                  Enter phone prefix code!
+                </small>
+                <small *ngIf="editContactForm.controls['prefix'].errors.maxlength">
+                  The max no. of lineNumber is 3 !
+                </small>
+              </small>
+              <small *ngIf='prefixCodeServerError'>
+                {{prefixCodeServerError}}
+              </small>
+            </div>
+            <div class="field">
+              <label>&nbsp;</label>
+              <!-- maxlength="4" -->
+              <input #lineNumber formControlName="lineNumber" type="text" placeholder="####" name="lineNumber">
+              <small *ngIf="editContactForm.controls['lineNumber'].invalid && (editContactForm.controls['lineNumber'].dirty || editContactForm.controls['lineNumber'].touched)">
+                <small *ngIf="editContactForm.controls['lineNumber'].errors.required">
+                  Enter your lineNumber!
+                </small>
+                <small *ngIf="editContactForm.controls['lineNumber'].errors.maxlength">
+                  The max no. of lineNumber is 4 !
+                </small>
+              </small>    
+              <small *ngIf='landLineCodeServerError'>
+                {{landLineCodeServerError}}
+              </small>
+            </div>
+          </div>
+          <div class="field">
+            <label>Photo URL</label>
+            <input #photo formControlName="photo" type="file" placeholder="http://cdn.com/profile.jpg" name="photo" (change)="fileChangeEvent($event)">
+            <small *ngIf="editContactForm.controls['photo'].invalid && (editContactForm.controls['photo'].dirty || editContactForm.controls['photo'].touched)">
+              <small *ngIf="editContactForm.controls['photo'].errors.required">
+                Enter your photoURL!
+              </small>
+              <small *ngIf="editContactForm.controls['photo'].errors.image">
+                Photo should not exceed 800x800 pixels!
+              </small>
+              <small *ngIf="editContactForm.controls['photo'].errors.extension">
+                Photo should be in jpeg, jpg or png format!
+              </small>
+            </small>    
+            <small *ngIf='photoServerError'>
+              {{photoServerError}}
+            </small>
+          </div>
+        <button type="button" class="btn btn-outline-secondary mr-auto" (click)="modal.dismiss('cancel click')">Cancel</button>
+        <button type="submit" [disabled]="editContactForm.invalid" class="ui submit large grey button right floated">Submit</button>
+        </form>
+      </div>
+    </div>
+</ng-template>

@@ -14,57 +14,99 @@ module.exports = () => {
       });
     });
 
-    router.post('/', addContactValidationRules(),validate, (req, res, next) => {
-      const user = req.body;
+  router.post('/', addContactValidationRules(),validate, (req, res, next) => {
+    const user = req.body;
 
-      // Write the image to profiles folder
-      var buffer = new Buffer(req.body.photoUrl.data, 'base64');
-      fs.writeFile(process.cwd()+`/src/server/profiles/${req.body.firstName}-${req.body.lastName}.${req.body.photoUrl.extension}`, 
-                    buffer, function (err,data) {
+    // Write the image to profiles folder
+    var buffer = new Buffer(req.body.photoUrl.data, 'base64');
+    fs.writeFile(process.cwd()+`/src/server/profiles/${req.body.firstName}-${req.body.lastName}.${req.body.photoUrl.extension}`, 
+                  buffer, function (err,data) {
         if (err) {
           return console.log(err);
         }
-      });
+    });
       /* if(req.files) {
         console.log(req.files);
         req.files.photoUrl.mv('profiles');
       } */
 
-      const contactsCollection = database.collection('contacts');
+    const contactsCollection = database.collection('contacts');
       
-      req.body.photoUrl.data = 'data:image/jpeg;base64,' + req.body.photoUrl.data;
-      contactsCollection.insertOne(user, (err, r) => {
-        if(err) {
-          return res.status(500).json({ error: 'Error inserting new contact' });
-        }
+    req.body.photoUrl.data = 'data:image/jpeg;base64,' + req.body.photoUrl.data;
+    contactsCollection.insertOne(user, (err, r) => {
+      if(err) {
+        return res.status(500).json({ error: 'Error inserting new contact' });
+      }
     
-        const newRecord = r.ops[0];
+      const newRecord = r.ops[0];
     
-        return res.status(201).json(newRecord);
-      });
-    })
-
-    router.delete('/:id', (req, res) => {
-      const contactsCollection = database.collection('contacts');
-
-      contactsCollection.findOneAndDelete({ "_id" : ObjectId(req.params.id) })
-        .then(deletedContact => {
-          if(deletedContact.value) {
-            console.log(`Successfully deleted document that had the form: `);
-            console.log(deletedContact);
-            return res.status(201).json(deletedContact);
-          } else if(deletedContact.value == null) {
-            console.log("No document matches the provided query.");
-            console.log(deletedContact);
-            return res.status(204).json(deletedContact);
-          }
-        })
-        .catch(err => console.error(`Failed to find and delete document: ${err}`))
-
-      /* find({}).toArray((err, docs) => {
-        return res.json(docs);
-      }); */
+      return res.status(201).json(newRecord);
     });
+  })
+
+  router.put('/:id', addContactValidationRules(),validate, (req, res, next) => {
+    const user = req.body;
+    delete user._id;
+    
+    // Write the image to profiles folder
+    var buffer = new Buffer(req.body.photoUrl.data, 'base64');
+    fs.writeFile(process.cwd()+`/src/server/profiles/${req.body.firstName}-${req.body.lastName}.${req.body.photoUrl.extension}`, 
+                  buffer, function (err,data) {
+        if (err) {
+          return console.log(err);
+        }
+    });
+      /* if(req.files) {
+        console.log(req.files);
+        req.files.photoUrl.mv('profiles');
+      } */
+
+    const contactsCollection = database.collection('contacts');
+      
+    req.body.photoUrl.data = 'data:image/jpeg;base64,' + req.body.photoUrl.data;
+    /* contactsCollection.findOneAndUpdate({ "_id" : ObjectId(req.params.id) }, { $set: user }, { returnNewDocument: true }, (err, r) => {
+      if(err) {
+        return res.status(500).json({ error: 'Error updating new contact' });
+      }
+    
+      const updatedRecord = r.ops[0];
+      console.log(r);
+    
+      return res.status(201).json(updatedRecord);
+    }); */
+
+    contactsCollection.findOneAndUpdate({ "_id" : ObjectId(req.params.id) }, { $set: user }, { returnNewDocument: true })
+      .then(updatedDocument => {
+        if(updatedDocument) {
+          console.log(`Successfully updated document: ${updatedDocument}.`);
+          console.log(updatedDocument);
+          return res.status(201).json(updatedDocument);
+        } else {
+          console.log("No document matches the provided query.");
+          return res.status(500).json({ error: 'Error updating new contact' });
+        }
+      })
+  })
+
+  router.delete('/:id', (req, res) => {
+    const contactsCollection = database.collection('contacts');
+    contactsCollection.findOneAndDelete({ "_id" : ObjectId(req.params.id) })
+      .then(deletedContact => {
+        if(deletedContact.value) {
+          console.log(`Successfully deleted document that had the form: `);
+          console.log(deletedContact);
+          return res.status(201).json(deletedContact);
+        } else if(deletedContact.value == null) {
+          console.log("No document matches the provided query.");
+          console.log(deletedContact);
+          return res.status(204).json(deletedContact);
+        }
+      })
+      .catch(err => console.error(`Failed to find and delete document: ${err}`))
+    /* find({}).toArray((err, docs) => {
+      return res.json(docs);
+    }); */
+  });
 
   return router;
 };
