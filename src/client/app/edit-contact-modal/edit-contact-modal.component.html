@@ -21,11 +21,11 @@
         </div>
         <form class="ui big form" [formGroup]="editContactForm" (ngSubmit)="onSubmit()" [class.loading]="loading" novalidate>
           <div class="equal width fields">
-            <div class="three wide field">
+            <div class="field">
               <div class="image">
                 <div *ngIf="contact.photoUrl.data; then binaryImage else serverImage"></div>
-                  <ng-template #binaryImage> <img [src]="contact?.photoUrl.data" width="140" height="160"> </ng-template>
-                  <ng-template #serverImage> <img [src]="contact?.photoUrl" width="140" height="160"> </ng-template>
+                  <ng-template #binaryImage> <img class="img-fluid" [src]="contact?.photoUrl.data"> </ng-template>
+                  <ng-template #serverImage> <img class="img-fluid" [src]="contact?.photoUrl"> </ng-template>
               </div>
             </div>
             <div class="field">

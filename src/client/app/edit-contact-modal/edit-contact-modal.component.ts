@@ -138,8 +138,8 @@ export class EditContactModalComponent implements OnInit {
     this.imageBase64["data"] = btoa(binaryString);
   }
   
-  editContactId(contactId, addNewContactModal) {
-    this.addContactModal.open(addNewContactModal, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
+  editContactId(contactId, editContactModal) {
+    this.addContactModal.open(editContactModal, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       console.log('result from add-contact-modal.component.ts');
       console.log(result);
@@ -200,9 +200,10 @@ export class EditContactModalComponent implements OnInit {
           this.loading = false;
           this.editContactForm.reset(this.editContactForm.value);
         } else {
-          this.editContactForm.reset();
+          //this.editContactForm.reset();
           this.loading = false;
-          this.contactEdited = data;
+          this.contactEdited = data.value;
+          console.log(this.contactEdited);
           this.api.makeRefresh();
        }
       }); 
