@@ -23,9 +23,14 @@
           <div class="equal width fields">
             <div class="field">
               <div class="image">
-                <div *ngIf="contact.photoUrl.data; then binaryImage else serverImage"></div>
-                  <ng-template #binaryImage> <img class="img-fluid" [src]="contact?.photoUrl.data"> </ng-template>
-                  <ng-template #serverImage> <img class="img-fluid" [src]="contact?.photoUrl"> </ng-template>
+                <div *ngIf="choosenImage">
+                  <img class="img-fluid" [src]="choosenImage">
+                </div>
+                <div *ngIf="choosenImage == ''">
+                  <div *ngIf="contact.photoUrl.data; then binaryImage else serverImage"></div>
+                    <ng-template #binaryImage> <img class="img-fluid" [src]="contact?.photoUrl.data"> </ng-template>
+                    <ng-template #serverImage> <img class="img-fluid" [src]="contact?.photoUrl"> </ng-template>
+                </div>  
               </div>
             </div>
             <div class="field">

@@ -113,13 +113,15 @@ export class EditContactModalComponent implements OnInit {
   //define the variable containing the image extension and ASCII data
   imageBase64 = {};
 
+  choosenImage = "";
+
   fileChangeEvent(E) {
     if(E != undefined){
       //this.imageBase64["extension"] = E.target.files[0].name.split('.')[1];
       this.imageBase64["extension"] = E.target.files[0].type.replace(/^.*[\\\/]/, '');
       var files = E.target.files;
       var file = files[0];
-
+      
       if (files && file) {
         var reader = new FileReader();
         
@@ -136,6 +138,7 @@ export class EditContactModalComponent implements OnInit {
     var binaryString = readerEvt.target.result;
     //this.imageBase64["data"] = binaryString;
     this.imageBase64["data"] = btoa(binaryString);
+    this.choosenImage = 'data:image/jpeg;base64,' + this.imageBase64["data"];
   }
   
   editContactId(contactId, editContactModal) {

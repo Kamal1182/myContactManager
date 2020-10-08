@@ -79,7 +79,6 @@ module.exports = () => {
       .then(updatedDocument => {
         if(updatedDocument) {
           console.log(`Successfully updated document: ${updatedDocument}.`);
-          console.log(updatedDocument);
           return res.status(201).json(updatedDocument);
         } else {
           console.log("No document matches the provided query.");
