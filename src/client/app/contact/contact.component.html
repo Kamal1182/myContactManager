@@ -1,5 +1,6 @@
 <div class="ui card">
   <div class="image">
+    <fa-icon icon="times" style="color:red; position: absolute; left:5px;"></fa-icon>
     <div *ngIf="contact.photoUrl.data; then binaryImage else serverImage"></div>
     <ng-template #binaryImage> <img [src]="contact?.photoUrl.data"> </ng-template>
     <ng-template #serverImage> <img [src]="contact?.photoUrl"> </ng-template>
