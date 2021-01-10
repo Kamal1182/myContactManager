@@ -20,10 +20,10 @@ module.exports = () => {
         if(!bcrypt.compareSync(user.password, result.password)) {
           return res.status(401).json({ error: 'incorrect password!' });
         }
-  
+        
         const payload = {
-          username: user.username,
-          admin: user.admin
+          username: result.username,
+          admin: result.admin
         };
   
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '4h' });

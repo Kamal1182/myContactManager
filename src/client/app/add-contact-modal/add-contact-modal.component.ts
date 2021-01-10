@@ -113,6 +113,7 @@ export class AddContactModalComponent implements OnInit {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       console.log(this.closeResult);
+      this.resetAll();
     });
   }
 
@@ -150,7 +151,10 @@ export class AddContactModalComponent implements OnInit {
     //this.addContactForm.reset(this.addContactForm.value);
     this.api.post( 'contacts', contact )
       .subscribe(data => {
-        if( data.statusCode == 422 ){
+        if ( data.statusCode == 401 ) {
+          alert( data.error );
+          this.resetAll();
+        } else if( data.statusCode == 422 ){
           console.log('from add-contact.component.js' + JSON.stringify(data.error));
           this.firstnameServerError = data.error.firstName;
           this.lastnameServerError = data.error.lastName;
@@ -168,6 +172,19 @@ export class AddContactModalComponent implements OnInit {
           this.api.makeRefresh();
        }
       }); 
-  }  
+  }
+  
+  private resetAll() {
+    this.loading = false;
+    this.addContactModal.dismissAll();
+    this.firstnameServerError = '';
+    this.lastnameServerError = '';
+    this.addressServerError = '';
+    this.areaCodeServerError = '';
+    this.prefixCodeServerError = '';
+    this.landLineCodeServerError = '';
+    this.photoServerError = '';
+    this.addContactForm.reset();    
+  }
 
 }

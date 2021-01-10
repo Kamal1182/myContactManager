@@ -32,8 +32,11 @@ export class DeleteContactModalComponent implements OnInit {
       console.log(result);
       this.api.delete('contacts/'+ contactId)
         .subscribe(data => {
-          if(data !== null ) {console.log(data.value.firstName)};
-          console.log(data);
+          if( data.statusCode == 401 ) {
+            alert( data.error );
+          } else {
+            console.log( data );
+          }
         });
       this.api.makeRefresh();
       //this.refreshContactsEvent.emit();

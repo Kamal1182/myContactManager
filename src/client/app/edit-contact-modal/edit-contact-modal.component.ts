@@ -31,7 +31,7 @@ export class EditContactModalComponent implements OnInit {
   landLineCodeServerError = '';
   photoServerError = '';
 
-  constructor(private addContactModal: NgbModal,
+  constructor(private editContactModal: NgbModal,
     public api: ApiService,
     private fb: FormBuilder,
     private router: Router
@@ -142,7 +142,7 @@ export class EditContactModalComponent implements OnInit {
   }
   
   editContactId(contactId, editContactModal) {
-    this.addContactModal.open(editContactModal, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
+    this.editContactModal.open(editContactModal, {ariaLabelledBy: 'modal-basic-title', size: 'lg'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       console.log('result from add-contact-modal.component.ts');
       console.log(result);
@@ -191,7 +191,10 @@ export class EditContactModalComponent implements OnInit {
     //this.editContactForm.reset(this.editContactForm.value);
     this.api.put( 'contacts/'+this.contact._id, contact )
       .subscribe(data => {
-        if( data.statusCode == 422 ){
+        if ( data.statusCode == 401 ) {
+          alert( data.error );
+          this.resetAll();
+        } else if ( data.statusCode == 422 ){
           console.log('from add-contact.component.js' + JSON.stringify(data.error));
           this.firstnameServerError = data.error.firstName;
           this.lastnameServerError = data.error.lastName;
@@ -212,4 +215,17 @@ export class EditContactModalComponent implements OnInit {
       }); 
   }  
 
+  private resetAll() {
+    this.loading = false;
+    this.editContactModal.dismissAll();
+    
+    this.firstnameServerError = '';
+    this.lastnameServerError = '';
+    this.addressServerError = '';
+    this.areaCodeServerError = '';
+    this.prefixCodeServerError = '';
+    this.landLineCodeServerError = '';
+    this.photoServerError = '';
+    this.ngOnInit();
+  }
 }

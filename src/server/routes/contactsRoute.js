@@ -3,6 +3,8 @@ const router  = express.Router();
 const { addContactValidationRules, validate } = require('../validation/addUserValidation');
 const fs = require('fs');
 const ObjectId = require('mongodb').ObjectID;
+const jwt     = require('jsonwebtoken');
+
 //const db      = require('../dbConnection');
 //database      = db.getDb();
 
@@ -15,6 +17,11 @@ module.exports = () => {
     });
 
   router.post('/', addContactValidationRules(),validate, (req, res, next) => {
+
+    if( !jwt.verify( req.headers.authorization.split(' ')[1], process.env.JWT_SECRET).admin ) {
+      return res.status(401).json({ error: 'Adding new user is allowed for admins only!' });
+    }
+
     const user = req.body;
 
     // Write the image to profiles folder
@@ -45,6 +52,11 @@ module.exports = () => {
   })
 
   router.put('/:id', addContactValidationRules(),validate, (req, res, next) => {
+
+    if( !jwt.verify( req.headers.authorization.split(' ')[1], process.env.JWT_SECRET).admin ) {
+      return res.status(401).json({ error: 'Editing a user is allowed for admins only!' });
+    }
+
     const user = req.body;
     delete user._id;
     
@@ -88,6 +100,11 @@ module.exports = () => {
   })
 
   router.delete('/:id', (req, res) => {
+
+    if( !jwt.verify( req.headers.authorization.split(' ')[1], process.env.JWT_SECRET).admin ) {
+      return res.status(401).json({ error: 'Deleting a user is allowed for admins only!' });
+    }
+
     const contactsCollection = database.collection('contacts');
     contactsCollection.findOneAndDelete({ "_id" : ObjectId(req.params.id) })
       .then(deletedContact => {
@@ -98,7 +115,7 @@ module.exports = () => {
         } else if(deletedContact.value == null) {
           console.log("No document matches the provided query.");
           console.log(deletedContact);
-          return res.status(204).json(deletedContact);
+          return res.status(204).json({ error: 'No data found!' });
         }
       })
       .catch(err => console.error(`Failed to find and delete document: ${err}`))
